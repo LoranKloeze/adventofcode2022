@@ -17,6 +17,7 @@ func main() {
 		"day1-1": day1.PartOne,
 		"day1-2": day1.PartTwo,
 		"day2-1": day2.PartOne,
+		"day2-2": day2.PartTwo,
 	}
 
 	if len(os.Args) < 2 {
