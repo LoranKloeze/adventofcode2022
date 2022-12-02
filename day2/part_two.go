@@ -35,7 +35,7 @@ func MyActualScore(r io.Reader) (totalScore int) {
 		opponent := spl[0]
 		me := spl[1]
 
-		score, err := parseAcutalMove(opponent, me)
+		score, err := parseActualMove(opponent, me)
 		if err != nil {
 			fmt.Printf("Warning: cannot parse move: %v\n", err)
 		}
@@ -45,7 +45,7 @@ func MyActualScore(r io.Reader) (totalScore int) {
 	return totalScore
 }
 
-func parseAcutalMove(opponentCode, meCode string) (int, error) {
+func parseActualMove(opponentCode, meCode string) (int, error) {
 
 	opponent, ok := shapeForCode[opponentCode]
 	if !ok {
