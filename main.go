@@ -9,12 +9,14 @@ import (
 	"os"
 
 	"github.com/lorankloeze/advent2022/day1"
+	"github.com/lorankloeze/advent2022/day2"
 )
 
 func main() {
 	challenges := map[string]func(){
 		"day1-1": day1.PartOne,
 		"day1-2": day1.PartTwo,
+		"day2-1": day2.PartOne,
 	}
 
 	if len(os.Args) < 2 {
