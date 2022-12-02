@@ -17,7 +17,7 @@ C Z
 `
 
 	b := bytes.NewBufferString(sample)
-	got := ProbablyMyScore(b)
+	got := probablyMyScore(b)
 	exp := 15
 
 	if got != exp {
@@ -34,7 +34,7 @@ func TestRealForOne(t *testing.T) {
 	}
 	defer f.Close()
 
-	got := ProbablyMyScore(f)
+	got := probablyMyScore(f)
 
 	// Your answer is probably different
 	answer := 14069

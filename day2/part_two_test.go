@@ -17,7 +17,7 @@ C Z
 `
 
 	b := bytes.NewBufferString(sample)
-	got := MyActualScore(b)
+	got := myActualScore(b)
 	exp := 12
 
 	if got != exp {
@@ -34,7 +34,7 @@ func TestRealForTwo(t *testing.T) {
 	}
 	defer f.Close()
 
-	got := MyActualScore(f)
+	got := myActualScore(f)
 
 	// Your answer is probably different
 	answer := 12411

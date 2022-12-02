@@ -12,26 +12,6 @@ import (
 	"strings"
 )
 
-var shapeForCode map[string]string = map[string]string{
-	"A": "rock",
-	"B": "paper",
-	"C": "scissors",
-	"X": "rock",
-	"Y": "paper",
-	"Z": "scissors",
-}
-
-var scoreForShape map[string]int = map[string]int{
-	"rock":     1,
-	"paper":    2,
-	"scissors": 3,
-}
-var scoreForOutcome map[string]int = map[string]int{
-	"lost": 0,
-	"draw": 3,
-	"won":  6,
-}
-
 // Main entry for part one of this day
 func PartOne() {
 	f, err := os.Open("day2/input.txt")
@@ -41,13 +21,13 @@ func PartOne() {
 	}
 	defer f.Close()
 
-	res := ProbablyMyScore(f)
+	res := probablyMyScore(f)
 
 	fmt.Printf("The answer is %d\n", res)
 
 }
 
-func ProbablyMyScore(r io.Reader) (totalScore int) {
+func probablyMyScore(r io.Reader) (totalScore int) {
 	s := bufio.NewScanner(r)
 
 	for s.Scan() {

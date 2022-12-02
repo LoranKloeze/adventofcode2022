@@ -33,13 +33,13 @@ func PartTwo() {
 	}
 	defer f.Close()
 
-	res := MyActualScore(f)
+	res := myActualScore(f)
 
 	fmt.Printf("The answer is %d\n", res)
 
 }
 
-func MyActualScore(r io.Reader) (totalScore int) {
+func myActualScore(r io.Reader) (totalScore int) {
 	s := bufio.NewScanner(r)
 
 	for s.Scan() {
