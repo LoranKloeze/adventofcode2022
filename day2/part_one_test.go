@@ -45,7 +45,7 @@ func TestRealForOne(t *testing.T) {
 
 }
 
-func TestParseMove(t *testing.T) {
+func TestParseProbablyMove(t *testing.T) {
 
 	type testCase struct {
 		opponentPlays string
@@ -74,7 +74,7 @@ func TestParseMove(t *testing.T) {
 	}
 }
 
-func TestUnknownMove(t *testing.T) {
+func TestUnknownProbablyMove(t *testing.T) {
 	opponent, me := "foo", "bar"
 	_, err := parseProbablyMove(opponent, me)
 	if err == nil {
