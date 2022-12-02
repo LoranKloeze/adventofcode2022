@@ -69,7 +69,7 @@ func TestParseProbablyMove(t *testing.T) {
 
 	for _, c := range tests {
 		if got, _ := parseProbablyMove(c.opponentPlays, c.mePlays); got != c.expScore {
-			t.Errorf("Expected parseMove(%q,%q) to return %d, got %d", c.opponentPlays, c.mePlays, c.expScore, got)
+			t.Errorf("Expected parseProbablyMove(%q,%q) to return %d, got %d", c.opponentPlays, c.mePlays, c.expScore, got)
 		}
 	}
 }
