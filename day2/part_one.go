@@ -41,13 +41,13 @@ func PartOne() {
 	}
 	defer f.Close()
 
-	res := MyScore(f)
+	res := ProbablyMyScore(f)
 
 	fmt.Printf("The answer is %d\n", res)
 
 }
 
-func MyScore(r io.Reader) (totalScore int) {
+func ProbablyMyScore(r io.Reader) (totalScore int) {
 	s := bufio.NewScanner(r)
 
 	for s.Scan() {
@@ -55,7 +55,7 @@ func MyScore(r io.Reader) (totalScore int) {
 		opponent := spl[0]
 		me := spl[1]
 
-		score, err := parseMove(opponent, me)
+		score, err := parseProbablyMove(opponent, me)
 		if err != nil {
 			fmt.Printf("Warning: cannot parse move: %v", err)
 		}
@@ -65,7 +65,7 @@ func MyScore(r io.Reader) (totalScore int) {
 	return totalScore
 }
 
-func parseMove(opponentCode, meCode string) (int, error) {
+func parseProbablyMove(opponentCode, meCode string) (int, error) {
 
 	opponent, ok := shapeForCode[opponentCode]
 	if !ok {

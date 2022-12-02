@@ -17,7 +17,7 @@ C Z
 `
 
 	b := bytes.NewBufferString(sample)
-	got := MyScore(b)
+	got := ProbablyMyScore(b)
 	exp := 15
 
 	if got != exp {
@@ -34,7 +34,7 @@ func TestRealForOne(t *testing.T) {
 	}
 	defer f.Close()
 
-	got := MyScore(f)
+	got := ProbablyMyScore(f)
 
 	// Your answer is probably different
 	answer := 14069
@@ -68,7 +68,7 @@ func TestParseMove(t *testing.T) {
 	}
 
 	for _, c := range tests {
-		if got, _ := parseMove(c.opponentPlays, c.mePlays); got != c.expScore {
+		if got, _ := parseProbablyMove(c.opponentPlays, c.mePlays); got != c.expScore {
 			t.Errorf("Expected parseMove(%q,%q) to return %d, got %d", c.opponentPlays, c.mePlays, c.expScore, got)
 		}
 	}
@@ -76,7 +76,7 @@ func TestParseMove(t *testing.T) {
 
 func TestUnknownMove(t *testing.T) {
 	opponent, me := "foo", "bar"
-	_, err := parseMove(opponent, me)
+	_, err := parseProbablyMove(opponent, me)
 	if err == nil {
 		t.Errorf("Expected call parseMove(%q,%q) to return error", opponent, me)
 	}
