@@ -12,6 +12,18 @@ import (
 	"strings"
 )
 
+var winsFrom map[string]string = map[string]string{
+	"rock":     "paper",
+	"paper":    "scissors",
+	"scissors": "rock",
+}
+
+var losesTo map[string]string = map[string]string{
+	"rock":     "scissors",
+	"paper":    "rock",
+	"scissors": "paper",
+}
+
 // Main entry for part two of this day
 func PartTwo() {
 	f, err := os.Open("day2/input.txt")
@@ -52,35 +64,18 @@ func parseActualMove(opponentCode, meCode string) (int, error) {
 		return 0, fmt.Errorf("code %q is not mappable to a shape", opponentCode)
 	}
 
-	// Win
 	if meCode == "Z" {
-		if opponent == "rock" {
-			return scoreForShape["paper"] + scoreForOutcome["won"], nil
-		}
-		if opponent == "paper" {
-			return scoreForShape["scissors"] + scoreForOutcome["won"], nil
-		}
-		if opponent == "scissors" {
-			return scoreForShape["rock"] + scoreForOutcome["won"], nil
-		}
+		shapeToWin := winsFrom[opponent]
+		return scoreForShape[shapeToWin] + scoreForOutcome["won"], nil
 	}
 
-	// Draw
 	if meCode == "Y" {
 		return scoreForShape[opponent] + scoreForOutcome["draw"], nil
 	}
 
-	// Lose
 	if meCode == "X" {
-		if opponent == "rock" {
-			return scoreForShape["scissors"] + scoreForOutcome["lose"], nil
-		}
-		if opponent == "paper" {
-			return scoreForShape["rock"] + scoreForOutcome["lose"], nil
-		}
-		if opponent == "scissors" {
-			return scoreForShape["paper"] + scoreForOutcome["lose"], nil
-		}
+		shapeToLose := losesTo[opponent]
+		return scoreForShape[shapeToLose] + scoreForOutcome["lost"], nil
 	}
 
 	return 0, fmt.Errorf("cannot parse opponent %q and me %q", opponentCode, meCode)
