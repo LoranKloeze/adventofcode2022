@@ -6,6 +6,7 @@ package day1
 
 import (
 	"bytes"
+	"os"
 	"testing"
 )
 
@@ -32,6 +33,25 @@ func TestSampleForTwo(t *testing.T) {
 
 	if got != exp {
 		t.Errorf("Wrong total calorie sum, expected %d, got %d", exp, got)
+	}
+
+}
+
+func TestRealForTwo(t *testing.T) {
+	f, err := os.Open("input.txt")
+	if err != nil {
+		t.Fatalf("Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	got := TopCaloriesSum(f, 3)
+
+	// Your answer is probably different
+	answer := 209603
+
+	if got != answer {
+		t.Errorf("Wrong maximum calorie sum, expected %d, got %d", answer, got)
 	}
 
 }
