@@ -6,6 +6,7 @@ package day2
 
 import (
 	"bytes"
+	"os"
 	"testing"
 )
 
@@ -21,6 +22,25 @@ C Z
 
 	if got != exp {
 		t.Errorf("Wrong total score, expected %d, got %d", exp, got)
+	}
+
+}
+
+func TestRealForOne(t *testing.T) {
+	f, err := os.Open("input.txt")
+	if err != nil {
+		t.Fatalf("Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	got := MyScore(f)
+
+	// Your answer is probably different
+	answer := 14069
+
+	if got != answer {
+		t.Errorf("Wrong total score, expected %d, got %d", answer, got)
 	}
 
 }
