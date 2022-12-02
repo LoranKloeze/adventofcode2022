@@ -22,11 +22,11 @@ func PartOne() {
 	}
 	defer f.Close()
 
-	fmt.Printf("The answer is %d\n", MaxCaloriesSum(f))
+	fmt.Printf("The answer is %d\n", maxCaloriesSum(f))
 
 }
 
-func MaxCaloriesSum(r io.Reader) int {
+func maxCaloriesSum(r io.Reader) int {
 
 	s := bufio.NewScanner(r)
 

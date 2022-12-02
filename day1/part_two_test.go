@@ -28,7 +28,7 @@ func TestSampleForTwo(t *testing.T) {
 `
 
 	b := bytes.NewBufferString(sample)
-	got := TopCaloriesSum(b, 3)
+	got := topCaloriesSum(b, 3)
 	exp := 45000
 
 	if got != exp {
@@ -45,7 +45,7 @@ func TestRealForTwo(t *testing.T) {
 	}
 	defer f.Close()
 
-	got := TopCaloriesSum(f, 3)
+	got := topCaloriesSum(f, 3)
 
 	// Your answer is probably different
 	answer := 209603
@@ -74,7 +74,7 @@ func TestDifferentOrderSampleForTwo(t *testing.T) {
 `
 
 	b := bytes.NewBufferString(sample)
-	got := TopCaloriesSum(b, 3)
+	got := topCaloriesSum(b, 3)
 	exp := 45000
 
 	if got != exp {

@@ -28,7 +28,7 @@ func TestSampleForOne(t *testing.T) {
 `
 
 	b := bytes.NewBufferString(sample)
-	got := MaxCaloriesSum(b)
+	got := maxCaloriesSum(b)
 	exp := 24000
 
 	if got != exp {
@@ -45,7 +45,7 @@ func TestRealForOne(t *testing.T) {
 	}
 	defer f.Close()
 
-	got := MaxCaloriesSum(f)
+	got := maxCaloriesSum(f)
 
 	// Your answer is probably different
 	answer := 71506
