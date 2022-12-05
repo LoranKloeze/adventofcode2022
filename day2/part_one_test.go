@@ -36,11 +36,11 @@ func TestRealForOne(t *testing.T) {
 
 	got := probablyMyScore(f)
 
-	// Your answer is probably different
-	answer := 14069
+	// Your exp is probably different
+	exp := 14069
 
-	if got != answer {
-		t.Errorf("Wrong total score, expected %d, got %d", answer, got)
+	if got != exp {
+		t.Errorf("Wrong total score, expected %d, got %d", exp, got)
 	}
 
 }
