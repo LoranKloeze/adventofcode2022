@@ -1,11 +1,10 @@
 package day3
 
-func prioForItem(item string) int {
-	r := item[0] // Convert to rune so we can do math with its byte representation
+func prioForItem(item rune) int {
 
-	if r > 96 {
-		return int(r - 96)
+	if item > 96 {
+		return int(item - 96)
 	} else {
-		return int(r - 38)
+		return int(item - 38)
 	}
 }

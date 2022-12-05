@@ -5,17 +5,17 @@ import "testing"
 func TestPrioForItem(t *testing.T) {
 
 	type testInput struct {
-		item    string
+		item    rune
 		expPrio int
 	}
 
 	tests := []testInput{
-		{"a", 1},
-		{"f", 6},
-		{"z", 26},
-		{"A", 27},
-		{"Y", 51},
-		{"Z", 52},
+		{'a', 1},
+		{'f', 6},
+		{'z', 26},
+		{'A', 27},
+		{'Y', 51},
+		{'Z', 52},
 	}
 
 	for _, tc := range tests {
