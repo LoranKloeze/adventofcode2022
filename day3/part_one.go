@@ -3,7 +3,6 @@ package day3
 import (
 	"bufio"
 	"io"
-	"strings"
 
 	"golang.org/x/exp/slices"
 )
@@ -13,17 +12,14 @@ func SumPrioCompartments(r io.Reader) int {
 	var tot int
 
 	for s.Scan() {
-		str := s.Text()
+		rucksack := s.Text()
 
-		lCompartment := str[:len(str)/2]
-		rCompartment := str[len(str)/2:]
+		lCompartment := rucksack[:len(rucksack)/2]
+		rCompartment := rucksack[len(rucksack)/2:]
 
-		lSlice := strings.Split(lCompartment, "")
-		rSlice := strings.Split(rCompartment, "")
-
-		for _, l := range lSlice {
-			if slices.Contains(rSlice, l) {
-				tot += prioForItem(l)
+		for _, item := range lCompartment {
+			if slices.Contains([]rune(rCompartment), item) {
+				tot += prioForItem(item)
 				break
 			}
 		}
