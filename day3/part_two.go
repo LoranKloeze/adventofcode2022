@@ -2,13 +2,30 @@ package day3
 
 import (
 	"bufio"
+	"fmt"
 	"io"
+	"os"
 	"strings"
 
 	"golang.org/x/exp/slices"
 )
 
-func SumPrioGroups(r io.Reader) int {
+// Main entry for part two of this day
+func PartTwo() {
+	f, err := os.Open("day3/input.txt")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	res := sumPrioGroups(f)
+
+	fmt.Printf("The answer is %d\n", res)
+
+}
+
+func sumPrioGroups(r io.Reader) int {
 	s := bufio.NewScanner(r)
 	s.Split(groupSplit)
 

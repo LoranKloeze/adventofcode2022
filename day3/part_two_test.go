@@ -16,7 +16,7 @@ CrZsJsPPZsGzwwsLwLmpwMDw
 `
 
 	b := bytes.NewBufferString(sample)
-	got := SumPrioGroups(b)
+	got := sumPrioGroups(b)
 	exp := 70
 
 	if got != exp {
@@ -32,7 +32,7 @@ func TestRealForTwo(t *testing.T) {
 	}
 	defer f.Close()
 
-	got := SumPrioGroups(f)
+	got := sumPrioGroups(f)
 
 	// Your answer is probably different
 	exp := 2413

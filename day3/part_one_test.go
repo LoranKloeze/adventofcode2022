@@ -16,7 +16,7 @@ CrZsJsPPZsGzwwsLwLmpwMDw
 `
 
 	b := bytes.NewBufferString(sample)
-	got := SumPrioCompartments(b)
+	got := sumPrioCompartments(b)
 	exp := 157
 
 	if got != exp {
@@ -32,7 +32,7 @@ func TestRealForOne(t *testing.T) {
 	}
 	defer f.Close()
 
-	got := SumPrioCompartments(f)
+	got := sumPrioCompartments(f)
 
 	// Your answer is probably different
 	exp := 8394
