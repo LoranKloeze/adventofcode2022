@@ -10,7 +10,7 @@ import (
 
 func SumPrioGroups(r io.Reader) int {
 	s := bufio.NewScanner(r)
-	s.Split(scanLineGroup(3))
+	s.Split(groupSplit)
 
 	var tot int
 	for s.Scan() {
@@ -27,29 +27,31 @@ func SumPrioGroups(r io.Reader) int {
 	return tot
 }
 
-func scanLineGroup(groupSize int) func(data []byte, atEOF bool) (advance int, token []byte, err error) {
-	return func(data []byte, atEOF bool) (advance int, token []byte, err error) {
+func groupSplit(data []byte, atEOF bool) (advance int, token []byte, err error) {
+	var groupSize = 3
 
-		var newLCnt int
-		for advance = 0; advance < len(data); advance++ {
+	var rucksackCnt int
+	for advance = 0; advance < len(data); advance++ {
+		endOfData := len(data[advance+1:]) == 0
+		endOfRucksack := data[advance] == '\n' || (endOfData && atEOF)
 
-			endOfRucksack := data[advance] == '\n' || (len(data[advance+1:]) == 0 && atEOF)
-			if endOfRucksack {
-				newLCnt++
-			}
-
-			if newLCnt == groupSize {
-				return advance + 1, token, nil // + 1 because we skip the last \n
-			}
-
-			if newLCnt < groupSize && len(data[advance+1:]) == 0 {
-				return 0, nil, nil
-			}
-
-			token = append(token, data[advance])
+		if endOfRucksack {
+			rucksackCnt++
 		}
 
-		return advance, token, nil
+		if rucksackCnt == groupSize {
+			// + 1 because we skip the last \n
+			return advance + 1, token, nil
+		}
 
+		if rucksackCnt < groupSize && endOfData {
+			// No more data left but we haven't found all rucksacks yet, ask for a larger data slice
+			return 0, nil, nil
+		}
+
+		token = append(token, data[advance])
 	}
+
+	return advance, token, nil
+
 }
