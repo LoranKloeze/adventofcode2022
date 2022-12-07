@@ -12,7 +12,7 @@ import (
 	"os"
 )
 
-// Main entry for part one of this day
+// Main entry for part two of this day
 func PartTwo() {
 	f, err := os.Open("day4/input.txt")
 	if err != nil {
