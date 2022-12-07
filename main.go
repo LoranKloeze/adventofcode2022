@@ -23,6 +23,7 @@ func main() {
 		"day3-1": day3.PartOne,
 		"day3-2": day3.PartTwo,
 		"day4-1": day4.PartOne,
+		"day4-2": day4.PartTwo,
 	}
 
 	if len(os.Args) < 2 {
