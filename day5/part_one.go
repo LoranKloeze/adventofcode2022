@@ -38,7 +38,7 @@ func (stacks stacksPlatform) moveCrates(row string) error {
 
 	amount, err := strconv.Atoi(spl[1])
 	if err != nil {
-		return fmt.Errorf("[stack amount] Cannot convert %s to a number for amount", spl[1])
+		return fmt.Errorf("[stack amount] Cannot convert %s to a number", spl[1])
 	}
 
 	from, err := strconv.Atoi(spl[3])
@@ -48,7 +48,7 @@ func (stacks stacksPlatform) moveCrates(row string) error {
 
 	to, err := strconv.Atoi(spl[5])
 	if err != nil {
-		return fmt.Errorf("[stack to] Cannot convert %s to a number for amount", spl[5])
+		return fmt.Errorf("[stack to] Cannot convert %s to a number", spl[5])
 	}
 
 	for i := 0; i < amount; i++ {
