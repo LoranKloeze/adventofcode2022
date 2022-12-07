@@ -16,6 +16,17 @@ const maxStacks = 10
 // In real life we never assume but need to ask our users, here we don't.
 type stacksPlatform [][]string
 
+func (stacks stacksPlatform) pop(stack int, amount int) []string {
+
+	l := len(stacks[stack])
+	crates := make([]string, amount)
+	copy(crates, stacks[stack][l-amount:])
+	stacks[stack] = stacks[stack][:l-amount]
+
+	return crates
+
+}
+
 func (stacks stacksPlatform) parseInitalCrates(row string) {
 	re := regexp.MustCompile(`(\[[A-Z]\]|\s{3})\s?`)
 	p := re.FindAllStringSubmatch(row, -1)
@@ -52,9 +63,7 @@ func (stacks stacksPlatform) moveCrates(row string) error {
 	}
 
 	for i := 0; i < amount; i++ {
-		l := len(stacks[from])
-		crate := stacks[from][l-1]
-		stacks[from] = stacks[from][:l-1]
+		crate := stacks.pop(from, 1)[0]
 		stacks[to] = append(stacks[to], crate)
 	}
 
