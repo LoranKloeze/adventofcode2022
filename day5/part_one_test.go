@@ -27,7 +27,7 @@ move 1 from 1 to 2
 	exp := "CMZ"
 
 	if got != exp {
-		t.Errorf("Wrong top rows of stacks, expected %s, got %s", exp, got)
+		t.Errorf("Wrong top rows of stacks using crate mover 9000, expected %q, got %q", exp, got)
 	}
 }
 
@@ -45,7 +45,7 @@ func TestRealForOne(t *testing.T) {
 	exp := "RFFFWBPNS"
 
 	if got != exp {
-		t.Errorf("Wrong top rows of stacks, expected %s, got %s", exp, got)
+		t.Errorf("Wrong top rows of stacks using crate mover 9000, expected %q, got %q", exp, got)
 	}
 
 }
