@@ -10,8 +10,8 @@ import (
 	"io"
 )
 
-func startOfPacketMarkerPos(r io.Reader) (int, error) {
-	groupSize := 4
+func startOfMessageMarkerPos(r io.Reader) (int, error) {
+	groupSize := 14
 
 	s := bufio.NewScanner(r)
 	s.Split(scanGrouped(groupSize))
@@ -24,5 +24,5 @@ func startOfPacketMarkerPos(r io.Reader) (int, error) {
 		endPos++
 	}
 
-	return 0, fmt.Errorf("no start-of-packet found")
+	return 0, fmt.Errorf("no start-of-message found")
 }
