@@ -11,6 +11,7 @@ import (
 // In real life we never assume but need to ask our users, here we don't.
 type stacksPlatform [][]string
 
+// Constants for the moving strategy
 const perCrate = 1
 const perGroup = 2
 
