@@ -29,6 +29,8 @@ func (stacks stacksPlatform) pop(stack int, amount int) []string {
 }
 
 func (stacks stacksPlatform) parseInitalCrates(row string) {
+
+	// This regex finds [X] or empty entries
 	re := regexp.MustCompile(`(\[[A-Z]\]|\s{3})\s?`)
 	p := re.FindAllStringSubmatch(row, -1)
 
@@ -40,7 +42,7 @@ func (stacks stacksPlatform) parseInitalCrates(row string) {
 		crate := string(m[1][1]) // Extract X from "[X]"
 		stackIdx := i + 1        // Stacks start with number 1
 
-		stacks[stackIdx] = append([]string{crate}, stacks[stackIdx]...) // Prepending, not appending
+		stacks[stackIdx] = append([]string{crate}, stacks[stackIdx]...) // ! Prepending, not appending
 	}
 }
 
