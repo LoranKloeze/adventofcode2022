@@ -35,6 +35,35 @@ func (e Entry) String() string {
 	return fmt.Sprintf("%s %s", t, e.Name)
 }
 
+func (e *Entry) findEntry(path string) (*Entry, bool) {
+	if path == "/" {
+		return e, true
+	}
+
+	spl := strings.Split(path, "/")[1:] // Ignore leading slash
+
+	segments := len(spl)
+
+	current := e
+outer:
+	for _, p := range spl {
+		for _, c := range current.Children {
+			if c.Name == p {
+				current = c
+				segments--
+				continue outer
+			}
+		}
+	}
+
+	if segments == 0 {
+		return current, true
+	} else {
+		return nil, false
+	}
+
+}
+
 func sumOfDirsUnder100000(r io.Reader) int {
 	parseTree(r)
 	return 0
@@ -69,7 +98,7 @@ func parseTree(r io.Reader) (root *Entry, err error) {
 			spl := strings.Split(s.Text(), " ")
 			pwd = filepath.Clean(pwd + "/" + spl[2])
 			var ok bool
-			parentDir, ok = findEntry(root, pwd)
+			parentDir, ok = root.findEntry(pwd)
 			if !ok {
 				return nil, fmt.Errorf("tried to cd to a non-existing dir: %q", pwd)
 			}
@@ -77,33 +106,4 @@ func parseTree(r io.Reader) (root *Entry, err error) {
 
 	}
 	return root, nil
-}
-
-func findEntry(root *Entry, path string) (*Entry, bool) {
-	if path == "/" {
-		return root, true
-	}
-
-	spl := strings.Split(path, "/")[1:] // Ignore leading slash
-
-	segments := len(spl)
-
-	current := root
-outer:
-	for _, p := range spl {
-		for _, c := range current.Children {
-			if c.Name == p {
-				current = c
-				segments--
-				continue outer
-			}
-		}
-	}
-
-	if segments == 0 {
-		return current, true
-	} else {
-		return nil, false
-	}
-
 }

@@ -77,7 +77,7 @@ func TestFindEntry(t *testing.T) {
 		{path: "/", expEntry: &r, expOk: true},
 	}
 	for _, tc := range tests {
-		gotDir, gotOk := findEntry(&r, tc.path)
+		gotDir, gotOk := r.findEntry(tc.path)
 
 		if gotDir != tc.expEntry {
 			t.Errorf("Wrong dir returned by findDir() for path %q, expected %v, got %v", tc.path, tc.expEntry, gotDir)
@@ -137,7 +137,7 @@ dir v
 	}
 
 	for _, tc := range tests {
-		entry, ok := findEntry(root, tc.path)
+		entry, ok := root.findEntry(tc.path)
 		if !ok {
 			t.Errorf("Expected path %q to exist but it doesn't", tc.path)
 		}
