@@ -8,7 +8,23 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"os"
 )
+
+// Main entry for part two of this day
+func PartTwo() {
+	f, err := os.Open("day6/input.txt")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	res, _ := startOfMessageMarkerPos(f)
+
+	fmt.Printf("The answer is %d\n", res)
+
+}
 
 func startOfMessageMarkerPos(r io.Reader) (int, error) {
 	groupSize := 14

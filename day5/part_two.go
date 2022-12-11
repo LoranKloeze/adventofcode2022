@@ -6,10 +6,27 @@ package day5
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"log"
+	"os"
 	"strings"
 )
+
+// Main entry for part two of this day
+func PartTwo() {
+	f, err := os.Open("day5/input.txt")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	res := resultOfCrateMover9001(f)
+
+	fmt.Printf("The answer is %q\n", res)
+
+}
 
 func resultOfCrateMover9001(r io.Reader) string {
 	s := bufio.NewScanner(r)
