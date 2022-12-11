@@ -39,22 +39,6 @@ func (e Entry) String() string {
 	return fmt.Sprintf("%s %s", t, e.Name)
 }
 
-func (e Entry) fullName() string {
-	if e.Parent == nil {
-		return e.Name
-	}
-	segments := []string{e.Name}
-	p := e.Parent
-	for p != nil {
-		if p.Name != "/" {
-			segments = append([]string{p.Name}, segments...) // ! Prepending, not appending
-		}
-		p = p.Parent
-	}
-	return "/" + strings.Join(segments, "/")
-
-}
-
 func (e *Entry) findSizeAtMost(atMost int, cb func(e *Entry, sz int)) {
 	sz := e.fullSize()
 	if sz <= atMost {
