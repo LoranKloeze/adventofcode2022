@@ -44,7 +44,7 @@ $ ls
 
 }
 
-func TestFindDir(t *testing.T) {
+func TestFindEntry(t *testing.T) {
 
 	r := Entry{Name: "", Type: DirEntry}
 	rA := Entry{Name: "a", Type: DirEntry, Parent: &r}
@@ -54,7 +54,8 @@ func TestFindDir(t *testing.T) {
 
 	rAX := Entry{Name: "x", Type: DirEntry, Parent: &rA}
 	rAY := Entry{Name: "y", Type: DirEntry, Parent: &rA}
-	rA.Children = append(rA.Children, &rAX, &rAY)
+	rAFile := Entry{Name: "setup.exe", Type: FileEntry, Parent: &rA}
+	rA.Children = append(rA.Children, &rAX, &rAY, &rAFile)
 
 	rAYC := Entry{Name: "c", Type: DirEntry, Parent: &rAY}
 	rAY.Children = append(rAY.Children, &rAYC)
@@ -69,12 +70,13 @@ func TestFindDir(t *testing.T) {
 	}{
 		{path: "/a/y/c", expEntry: &rAYC, expOk: true},
 		{path: "/b/p", expEntry: &rBP, expOk: true},
+		{path: "/a/setup.exe", expEntry: &rAFile, expOk: true},
 		{path: "/non/exist", expEntry: nil, expOk: false},
 		{path: "/a/non/exist", expEntry: nil, expOk: false},
 		{path: "/", expEntry: &r, expOk: true},
 	}
 	for _, tc := range tests {
-		gotDir, gotOk := findDir(&r, tc.path)
+		gotDir, gotOk := findEntry(&r, tc.path)
 
 		if gotDir != tc.expEntry {
 			t.Errorf("Wrong dir returned by findDir() for path %q, expected %v, got %v", tc.path, tc.expEntry, gotDir)

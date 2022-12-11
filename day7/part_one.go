@@ -71,7 +71,7 @@ func parseTree(r io.Reader) (root *Entry) {
 			spl := strings.Split(s.Text(), " ")
 			pwd = filepath.Clean(pwd + "/" + spl[2])
 			var ok bool
-			parentDir, ok = findDir(root, pwd)
+			parentDir, ok = findEntry(root, pwd)
 			if !ok {
 				fmt.Printf("In this program, a directory should always exist: %q does not exist\n", pwd)
 				os.Exit(1)
@@ -82,7 +82,7 @@ func parseTree(r io.Reader) (root *Entry) {
 	return root
 }
 
-func findDir(root *Entry, path string) (*Entry, bool) {
+func findEntry(root *Entry, path string) (*Entry, bool) {
 	if path == "/" {
 		return root, true
 	}
