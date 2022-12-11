@@ -35,7 +35,7 @@ func (e Entry) String() string {
 	return fmt.Sprintf("%s %s", t, e.Name)
 }
 
-func (e *Entry) findEntry(path string) (*Entry, bool) {
+func (e *Entry) find(path string) (*Entry, bool) {
 	if path == "/" {
 		return e, true
 	}
@@ -65,7 +65,8 @@ outer:
 }
 
 func sumOfDirsUnder100000(r io.Reader) int {
-	parseTree(r)
+	root, _ := parseTree(r)
+	fmt.Println(root)
 	return 0
 }
 
@@ -98,7 +99,7 @@ func parseTree(r io.Reader) (root *Entry, err error) {
 			spl := strings.Split(s.Text(), " ")
 			pwd = filepath.Clean(pwd + "/" + spl[2])
 			var ok bool
-			parentDir, ok = root.findEntry(pwd)
+			parentDir, ok = root.find(pwd)
 			if !ok {
 				return nil, fmt.Errorf("tried to cd to a non-existing dir: %q", pwd)
 			}
