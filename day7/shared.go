@@ -28,17 +28,6 @@ type Entry struct {
 	Children []*Entry
 }
 
-func (e Entry) String() string {
-	var t string
-	switch e.Type {
-	case DirEntry:
-		t = "[D]"
-	case FileEntry:
-		t = "[F]"
-	}
-	return fmt.Sprintf("%s %s", t, e.Name)
-}
-
 func (e *Entry) findSizeAtMost(atMost int, cb func(e *Entry, sz int)) {
 	sz := e.fullSize()
 	if sz <= atMost {
