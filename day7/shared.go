@@ -101,6 +101,7 @@ func parseTree(r io.Reader) (root *Entry, err error) {
 	parentDir := root
 	pwd := "/"
 	for s.Scan() {
+
 		isDir := strings.HasPrefix(s.Text(), "dir ")
 		if isDir {
 			spl := strings.Split(s.Text(), " ")
@@ -119,7 +120,8 @@ func parseTree(r io.Reader) (root *Entry, err error) {
 			parentDir.Children = append(parentDir.Children, &entry)
 		}
 
-		if strings.HasPrefix(s.Text(), "$ cd ") {
+		isCd := strings.HasPrefix(s.Text(), "$ cd ")
+		if isCd {
 			spl := strings.Split(s.Text(), " ")
 			pwd = filepath.Clean(pwd + "/" + spl[2])
 			var ok bool
