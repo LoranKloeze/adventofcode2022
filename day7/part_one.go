@@ -35,6 +35,48 @@ func (e Entry) String() string {
 	return fmt.Sprintf("%s %s", t, e.Name)
 }
 
+func (e Entry) FullName() string {
+	if e.Parent == nil {
+		return e.Name
+	}
+	segments := []string{e.Name}
+	p := e.Parent
+	for p != nil {
+		if p.Name != "/" {
+			segments = append([]string{p.Name}, segments...) // ! Prepending, not appending
+		}
+		p = p.Parent
+	}
+	return "/" + strings.Join(segments, "/")
+
+}
+
+func (e *Entry) walkDown() {
+	sz := e.FullSize()
+	if sz <= 100000 {
+		// fmt.Printf("Found %q with size %d\n", e.FullName(), e.FullSize())
+		fmt.Printf("%d\n", e.FullSize())
+	}
+	for _, c := range e.Children {
+		if c.Type == DirEntry {
+			c.walkDown()
+		}
+	}
+}
+
+func (e *Entry) FullSize() int {
+	size := 0
+	for _, c := range e.Children {
+		switch c.Type {
+		case FileEntry:
+			size += c.Size
+		case DirEntry:
+			size += c.FullSize()
+		}
+	}
+	return size
+}
+
 func (e *Entry) find(path string) (*Entry, bool) {
 	if path == "/" {
 		return e, true
@@ -65,15 +107,17 @@ outer:
 }
 
 func sumOfDirsUnder100000(r io.Reader) int {
-	root, _ := parseTree(r)
-	fmt.Println(root)
+	_, err := parseTree(r)
+	if err != nil {
+		fmt.Printf("Unexpected error while parsing tree: %v", err)
+	}
 	return 0
 }
 
 func parseTree(r io.Reader) (root *Entry, err error) {
 	s := bufio.NewScanner(r)
 
-	root = &Entry{Type: DirEntry}
+	root = &Entry{Type: DirEntry, Name: "/"}
 	parentDir := root
 	pwd := "/"
 	for s.Scan() {

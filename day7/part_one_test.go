@@ -7,55 +7,68 @@ package day7
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"testing"
 )
 
-func TestSampleForOne(t *testing.T) {
-	const sample = `$ cd /
-$ ls
-dir a
-14848514 b.txt
-8504156 c.dat
-dir d
-$ cd a
-$ ls
-dir e
-29116 f
-2557 g
-62596 h.lst
-$ cd e
-$ ls
-584 i
-$ cd ..
-$ cd ..
-$ cd d
-$ ls
-4060174 j
-8033020 d.log
-5626152 d.ext
-7214296 k
-`
+// func TestSampleForOne(t *testing.T) {
+// 	const sample = `$ cd /
+// $ ls
+// dir a
+// 14848514 b.txt
+// 8504156 c.dat
+// dir d
+// $ cd a
+// $ ls
+// dir e
+// 29116 f
+// 2557 g
+// 62596 h.lst
+// $ cd e
+// $ ls
+// 584 i
+// $ cd ..
+// $ cd ..
+// $ cd d
+// $ ls
+// 4060174 j
+// 8033020 d.log
+// 5626152 d.ext
+// 7214296 k
+// `
 
-	b := bytes.NewBufferString(sample)
-	got := sumOfDirsUnder100000(b)
-	exp := 95437
+// 	b := bytes.NewBufferString(sample)
+// 	got := sumOfDirsUnder100000(b)
+// 	exp := 95437
+// 	if got != exp {
+// 		t.Errorf("Wrong size sum of dirs with size < 100,000, expected %d, got %d", exp, got)
+// 	}
+
+// }
+
+func TestRealForOne(t *testing.T) {
+
+	f, err := os.Open("input.txt")
+	if err != nil {
+		t.Fatalf("Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	if err != nil {
+		t.Fatalf("Unexpected error while parsing test tree")
+	}
+
+	got := sumOfDirsUnder100000(f)
+
+	// Your answer is probably different
+	exp := 1077191
+
 	if got != exp {
 		t.Errorf("Wrong size sum of dirs with size < 100,000, expected %d, got %d", exp, got)
 	}
 
 }
-
-// func TestRealForOne(t *testing.T) {
-
-// 	f, err := os.Open("input.txt")
-// 	if err != nil {
-// 		t.Fatalf("Failed to open input data: %v\n", err)
-// 		return
-// 	}
-// 	defer f.Close()
-// 	sumOfDirsUnder100000(f)
-
-// }
 
 func TestFindEntry(t *testing.T) {
 
@@ -129,7 +142,7 @@ dir v
 		expSize int
 		expName string
 	}{
-		{path: "/", expType: DirEntry, expSize: 0, expName: ""},
+		{path: "/", expType: DirEntry, expSize: 0, expName: "/"},
 		{path: "/y", expType: DirEntry, expSize: 0, expName: "y"},
 		{path: "/x", expType: DirEntry, expSize: 0, expName: "x"},
 		{path: "/blabla.xslx", expType: FileEntry, expSize: 100, expName: "blabla.xslx"},
@@ -200,5 +213,42 @@ dir b
 		t.Errorf("Expected error trying to cd to a non-existing dir, got none")
 	}
 	fmt.Println(err)
+
+}
+
+func TestWalk(t *testing.T) {
+	const sample = `$ cd /
+$ ls
+dir a
+14848514 b.txt
+8504156 c.dat
+dir d
+$ cd a
+$ ls
+dir e
+29116 f
+2557 g
+62596 h.lst
+$ cd e
+$ ls
+584 i
+$ cd ..
+$ cd ..
+$ cd d
+$ ls
+4060174 j
+8033020 d.log
+5626152 d.ext
+7214296 k
+`
+	b := bytes.NewBufferString(sample)
+	root, err := parseTree(b)
+	if err != nil {
+		t.Fatalf("Unexpected error while parsing test tree")
+	}
+
+	root.walkDown()
+
+	t.Error("1-1--11")
 
 }
