@@ -51,6 +51,18 @@ func (e *Entry) findSizeAtMost(atMost int, cb func(e *Entry, sz int)) {
 	}
 }
 
+func (e *Entry) findSizeAtLeast(atLeast int, cb func(e *Entry, sz int)) {
+	sz := e.fullSize()
+	if sz >= atLeast {
+		cb(e, sz)
+	}
+	for _, c := range e.Children {
+		if c.Type == DirEntry {
+			c.findSizeAtLeast(atLeast, cb)
+		}
+	}
+}
+
 func (e *Entry) fullSize() int {
 	size := 0
 	for _, c := range e.Children {
