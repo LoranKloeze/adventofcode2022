@@ -6,6 +6,7 @@ package day7
 
 import (
 	"bytes"
+	"fmt"
 	"testing"
 )
 
@@ -110,13 +111,82 @@ dir v
 48 autoexec.bat
 `
 
-	b := bytes.NewBufferString(input)
-	root := parseTree(b)
-
-	got := len(root.Children)
-	exp := 3
-	if got != exp {
-		t.Errorf("Wrong number of children for root, expected %d, got %d", exp, got)
+	tests := []struct {
+		path    string
+		expType EntryType
+		expSize int
+		expName string
+	}{
+		{path: "/", expType: DirEntry, expSize: 0, expName: ""},
+		{path: "/y", expType: DirEntry, expSize: 0, expName: "y"},
+		{path: "/x", expType: DirEntry, expSize: 0, expName: "x"},
+		{path: "/blabla.xslx", expType: FileEntry, expSize: 100, expName: "blabla.xslx"},
+		{path: "/y/a", expType: DirEntry, expSize: 0, expName: "a"},
+		{path: "/y/b", expType: DirEntry, expSize: 0, expName: "b"},
+		{path: "/y/afile", expType: FileEntry, expSize: 1337, expName: "afile"},
+		{path: "/y/a/log.txt", expType: FileEntry, expSize: 42, expName: "log.txt"},
+		{path: "/x/v", expType: DirEntry, expSize: 0, expName: "v"},
+		{path: "/x/setup.exe", expType: FileEntry, expSize: 135533, expName: "setup.exe"},
+		{path: "/x/autoexec.bat", expType: FileEntry, expSize: 48, expName: "autoexec.bat"},
 	}
+
+	b := bytes.NewBufferString(input)
+	root, err := parseTree(b)
+	if err != nil {
+		t.Fatalf("Unexpected error while parsing test tree")
+	}
+
+	for _, tc := range tests {
+		entry, ok := findEntry(root, tc.path)
+		if !ok {
+			t.Errorf("Expected path %q to exist but it doesn't", tc.path)
+		}
+
+		if entry.Size != tc.expSize {
+			t.Errorf("Expected %q to have size %d but got %d", tc.path, tc.expSize, entry.Size)
+		}
+
+		if entry.Type != tc.expType {
+			t.Errorf("Expected %q to have type %v but got %v", tc.path, tc.expType, entry.Type)
+		}
+
+		if entry.Name != tc.expName {
+			t.Errorf("Expected %q to have name %q but got %q", tc.path, tc.expName, entry.Name)
+		}
+
+	}
+
+}
+
+func TestInvalidTreeParse(t *testing.T) {
+	const input = `$ cd /
+$ ls
+dqdqw blabla.xslx
+`
+	b := bytes.NewBufferString(input)
+	_, err := parseTree(b)
+	if err == nil {
+		t.Errorf("Expected error parsing an invalid tree, got none")
+	}
+	fmt.Println(err)
+
+}
+
+func TestUnkownDirInTreeParse(t *testing.T) {
+	const input = `$ cd /
+$ ls
+dir y
+dir x
+$ cd iamnothere
+$ ls
+dir a
+dir b
+`
+	b := bytes.NewBufferString(input)
+	_, err := parseTree(b)
+	if err == nil {
+		t.Errorf("Expected error trying to cd to a non-existing dir, got none")
+	}
+	fmt.Println(err)
 
 }

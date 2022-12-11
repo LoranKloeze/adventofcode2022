@@ -4,8 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"log"
-	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -42,7 +40,7 @@ func sumOfDirsUnder100000(r io.Reader) int {
 	return 0
 }
 
-func parseTree(r io.Reader) (root *Entry) {
+func parseTree(r io.Reader) (root *Entry, err error) {
 	s := bufio.NewScanner(r)
 
 	root = &Entry{Type: DirEntry}
@@ -61,7 +59,7 @@ func parseTree(r io.Reader) (root *Entry) {
 			spl := strings.Split(s.Text(), " ")
 			size, err := strconv.Atoi(spl[0])
 			if err != nil {
-				log.Fatalf("Expected a number, got none: %v", err)
+				return nil, fmt.Errorf("tried to parse a non-number: %v", err)
 			}
 			entry := Entry{Name: spl[1], Type: FileEntry, Size: size, Parent: parentDir}
 			parentDir.Children = append(parentDir.Children, &entry)
@@ -73,13 +71,12 @@ func parseTree(r io.Reader) (root *Entry) {
 			var ok bool
 			parentDir, ok = findEntry(root, pwd)
 			if !ok {
-				fmt.Printf("In this program, a directory should always exist: %q does not exist\n", pwd)
-				os.Exit(1)
+				return nil, fmt.Errorf("tried to cd to a non-existing dir: %q", pwd)
 			}
 		}
 
 	}
-	return root
+	return root, nil
 }
 
 func findEntry(root *Entry, path string) (*Entry, bool) {
