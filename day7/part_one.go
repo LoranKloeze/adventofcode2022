@@ -1,6 +1,13 @@
 package day7
 
 import (
+	"bufio"
+	"fmt"
+	"io"
+	"log"
+	"os"
+	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -19,28 +26,61 @@ type Entry struct {
 	Children []*Entry
 }
 
-// func sumOfDirsUnder100000(r io.Reader) int {
-// 	s := bufio.NewScanner(r)
+func (e Entry) String() string {
+	var t string
+	switch e.Type {
+	case DirEntry:
+		t = "[D]"
+	case FileEntry:
+		t = "[F]"
+	}
+	return fmt.Sprintf("%s %s", t, e.Name)
+}
 
-// 	root := Entry{Type: DirEntry}
-// 	parentDir := &root
-// 	pwd := "/"
-// 	for s.Scan() {
-// 		if strings.HasPrefix("dir ", s.Text()) {
-// 			spl := strings.Split(s.Text(), " ")
-// 			entry := Entry{Name: spl[1], Type: DirEntry, Parent: parentDir}
-// 			parentDir.Children = append(parentDir.Children, &entry)
-// 		}
+func sumOfDirsUnder100000(r io.Reader) int {
+	parseTree(r)
+	return 0
+}
 
-// 		if strings.HasPrefix("cd ", s.Text()) {
-// 			spl := strings.Split(s.Text(), " ")
-// 			pwd = filepath.Clean(pwd + "/" + spl[1])
-// 			parentDir, _ = findDir(&root, pwd)
-// 		}
+func parseTree(r io.Reader) (root *Entry) {
+	s := bufio.NewScanner(r)
 
-// 	}
-// 	return 0
-// }
+	root = &Entry{Type: DirEntry}
+	parentDir := root
+	pwd := "/"
+	for s.Scan() {
+		isDir := strings.HasPrefix(s.Text(), "dir ")
+		if isDir {
+			spl := strings.Split(s.Text(), " ")
+			entry := Entry{Name: spl[1], Type: DirEntry, Parent: parentDir}
+			parentDir.Children = append(parentDir.Children, &entry)
+		}
+
+		isFile := !strings.HasPrefix(s.Text(), "dir ") && !strings.HasPrefix(s.Text(), "$")
+		if isFile {
+			spl := strings.Split(s.Text(), " ")
+			size, err := strconv.Atoi(spl[0])
+			if err != nil {
+				log.Fatalf("Expected a number, got none: %v", err)
+			}
+			entry := Entry{Name: spl[1], Type: FileEntry, Size: size, Parent: parentDir}
+			parentDir.Children = append(parentDir.Children, &entry)
+		}
+
+		if strings.HasPrefix(s.Text(), "$ cd ") {
+			spl := strings.Split(s.Text(), " ")
+			pwd = filepath.Clean(pwd + "/" + spl[2])
+			var ok bool
+			parentDir, ok = findDir(root, pwd)
+			if !ok {
+				fmt.Printf("In this program, a directory should always exist: %q does not exist\n", pwd)
+				os.Exit(1)
+			}
+		}
+
+	}
+	return root
+}
 
 func findDir(root *Entry, path string) (*Entry, bool) {
 	if path == "/" {

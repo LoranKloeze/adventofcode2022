@@ -5,43 +5,44 @@
 package day7
 
 import (
+	"bytes"
 	"testing"
 )
 
-// func TestSampleForOne(t *testing.T) {
-// 	const sample = `$ cd /
-// $ ls
-// dir a
-// 14848514 b.txt
-// 8504156 c.dat
-// dir d
-// $ cd a
-// $ ls
-// dir e
-// 29116 f
-// 2557 g
-// 62596 h.lst
-// $ cd e
-// $ ls
-// 584 i
-// $ cd ..
-// $ cd ..
-// $ cd d
-// $ ls
-// 4060174 j
-// 8033020 d.log
-// 5626152 d.ext
-// 7214296 k
-// 	`
+func TestSampleForOne(t *testing.T) {
+	const sample = `$ cd /
+$ ls
+dir a
+14848514 b.txt
+8504156 c.dat
+dir d
+$ cd a
+$ ls
+dir e
+29116 f
+2557 g
+62596 h.lst
+$ cd e
+$ ls
+584 i
+$ cd ..
+$ cd ..
+$ cd d
+$ ls
+4060174 j
+8033020 d.log
+5626152 d.ext
+7214296 k
+`
 
-// 	b := bytes.NewBufferString(sample)
-// 	got := sumOfDirsUnder100000(b)
-// 	exp := 95437
-// 	if got != exp {
-// 		t.Errorf("Wrong size sum of dirs with size < 100,000, expected %d, got %d", exp, got)
-// 	}
+	b := bytes.NewBufferString(sample)
+	got := sumOfDirsUnder100000(b)
+	exp := 95437
+	if got != exp {
+		t.Errorf("Wrong size sum of dirs with size < 100,000, expected %d, got %d", exp, got)
+	}
 
-// }
+}
 
 func TestFindDir(t *testing.T) {
 
@@ -82,6 +83,38 @@ func TestFindDir(t *testing.T) {
 		if gotOk != tc.expOk {
 			t.Errorf("Wronk ok value returned by findDir() for path %q, expected %v, got %v", tc.path, tc.expOk, gotOk)
 		}
+	}
+
+}
+
+func TestTreeParse(t *testing.T) {
+	const input = `$ cd /
+$ ls
+dir y
+100 blabla.xslx
+dir x
+$ cd y
+$ ls
+dir a
+dir b
+1337 afile
+$ cd a
+42 log.txt
+$ cd ..
+$ cd ..
+$ cd x
+dir v
+135533 setup.exe
+48 autoexec.bat
+`
+
+	b := bytes.NewBufferString(input)
+	root := parseTree(b)
+
+	got := len(root.Children)
+	exp := 3
+	if got != exp {
+		t.Errorf("Wrong number of children for root, expected %d, got %d", exp, got)
 	}
 
 }
