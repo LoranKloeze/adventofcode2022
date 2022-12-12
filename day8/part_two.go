@@ -10,8 +10,8 @@ import (
 	"os"
 )
 
-// Main entry for part one of this day
-func PartOne() {
+// Main entry for part two of this day
+func PartTwo() {
 	f, err := os.Open("day8/input.txt")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to open input data: %v\n", err)
@@ -19,21 +19,23 @@ func PartOne() {
 	}
 	defer f.Close()
 
-	res := visibleFromOutside(f)
+	res := maxScenicScore(f)
 
 	fmt.Printf("The answer is %d\n", res)
 
 }
 
-func visibleFromOutside(r io.Reader) int {
-	var visible int
+func maxScenicScore(r io.Reader) int {
+	var maxScore int
+
 	grid := parseGrid(r)
 	for y, row := range grid {
 		for x, _ := range row {
-			if grid.isVisible(y, x) {
-				visible++
+			s := grid.scenicScore(y, x)
+			if s > maxScore {
+				maxScore = s
 			}
 		}
 	}
-	return visible
+	return maxScore
 }

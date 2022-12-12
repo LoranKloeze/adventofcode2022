@@ -1,3 +1,7 @@
+// Copyright 2022 Loran Kloeze. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
 package day8
 
 import (
@@ -103,6 +107,34 @@ func TestIsVisible(t *testing.T) {
 		got := grid.isVisible(tc.y, tc.x)
 		if got != tc.expVisible {
 			t.Errorf("Expected tree @ %d,%d visibility to be %t but it's %t", tc.y, tc.x, tc.expVisible, got)
+		}
+	}
+
+}
+
+func TestScenicScore(t *testing.T) {
+	const sample = `30373
+25512
+65332
+33549
+35390
+`
+	s := bytes.NewBufferString(sample)
+	grid := parseGrid(s)
+
+	tests := []struct {
+		x        int
+		y        int
+		expScore int
+	}{
+		{y: 1, x: 2, expScore: 4},
+		{y: 3, x: 2, expScore: 8},
+	}
+
+	for _, tc := range tests {
+		got := grid.scenicScore(tc.y, tc.x)
+		if got != tc.expScore {
+			t.Errorf("Expected tree @ %d,%d scenic score to be %d but it's %d", tc.y, tc.x, tc.expScore, got)
 		}
 	}
 

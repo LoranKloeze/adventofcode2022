@@ -1,3 +1,7 @@
+// Copyright 2022 Loran Kloeze. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
 package day8
 
 import (
@@ -65,6 +69,45 @@ func (g Grid) isVisible(treeY, treeX int) bool {
 	}
 
 	return visiblePositions > 0
+}
+
+func (g Grid) scenicScore(treeY, treeX int) int {
+	var x, y, scoreL, scoreR, scoreT, scoreB int
+	tree := g[treeY][treeX]
+
+	// Looking towards the left
+	for x = treeX - 1; x >= 0; x-- {
+		scoreL++
+		if g[treeY][x] >= tree {
+			break
+		}
+	}
+
+	// Looking towards the right
+	for x = treeX + 1; x <= g.maxX(); x++ {
+		scoreR++
+		if g[treeY][x] >= tree {
+			break
+		}
+	}
+
+	// Looking towards the top
+	for y = treeY - 1; y >= 0; y-- {
+		scoreT++
+		if g[y][treeX] >= tree {
+			break
+		}
+	}
+
+	// Looking towards the bottom
+	for y = treeY + 1; y <= g.maxY(); y++ {
+		scoreB++
+		if g[y][treeX] >= tree {
+			break
+		}
+	}
+
+	return scoreL * scoreR * scoreB * scoreT
 }
 
 func parseGrid(r io.Reader) Grid {
