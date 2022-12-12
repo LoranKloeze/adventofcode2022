@@ -31,12 +31,12 @@ func (g Grid) isVisible(treeY, treeX int) bool {
 
 	var x, y int
 	tree := g[treeY][treeX]
-	seen := 4
+	visiblePositions := 4
 
 	// Looking from the left
 	for x = 0; x < treeX; x++ {
 		if g[treeY][x] >= tree {
-			seen--
+			visiblePositions--
 			break
 		}
 	}
@@ -44,7 +44,7 @@ func (g Grid) isVisible(treeY, treeX int) bool {
 	// Looking from the right
 	for x = treeX + 1; x <= g.maxX(); x++ {
 		if g[treeY][x] >= tree {
-			seen--
+			visiblePositions--
 			break
 		}
 	}
@@ -52,19 +52,19 @@ func (g Grid) isVisible(treeY, treeX int) bool {
 	// Looking from the top
 	for y = 0; y < treeY; y++ {
 		if g[y][treeX] >= tree {
-			seen--
+			visiblePositions--
 			break
 		}
 	}
 	// Looking from the bottom
 	for y = treeY + 1; y <= g.maxY(); y++ {
 		if g[y][treeX] >= tree {
-			seen--
+			visiblePositions--
 			break
 		}
 	}
 
-	return seen > 0
+	return visiblePositions > 0
 }
 
 func parseGrid(r io.Reader) Grid {
