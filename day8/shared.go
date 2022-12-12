@@ -49,7 +49,7 @@ func (g Grid) isVisible(treeY, treeX int) bool {
 		}
 	}
 
-	// Looking from the top !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// Looking from the top
 	for y = 0; y < treeY; y++ {
 		if g[y][treeX] >= tree {
 			seen--
