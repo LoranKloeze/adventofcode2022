@@ -25,15 +25,15 @@ func (p Point) adjacentTo(a Point) bool {
 	return dX <= 1 && dY <= 1
 }
 
-func (p Point) String() string {
+func (p Point) key() string {
 	return fmt.Sprintf("%d,%d", p.Y, p.X)
 }
 
 func uniqueTailVisits(r io.Reader) int {
 	head := Point{}
 	tail := Point{}
+	tailPositions := map[string]struct{}{}
 
-	tailPositions := map[string]bool{}
 	s := bufio.NewScanner(r)
 	for s.Scan() {
 		spl := strings.Split(s.Text(), " ")
@@ -70,7 +70,7 @@ func uniqueTailVisits(r io.Reader) int {
 					tail.X = head.X
 				}
 			}
-			tailPositions[tail.String()] = true
+			tailPositions[tail.key()] = struct{}{}
 		}
 
 	}
