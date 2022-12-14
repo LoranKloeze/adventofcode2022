@@ -38,41 +38,46 @@ func uniqueTailVisits(r io.Reader) int {
 	for s.Scan() {
 		spl := strings.Split(s.Text(), " ")
 		direction := spl[0]
+
 		steps, err := strconv.Atoi(spl[1])
 		if err != nil {
 			log.Fatalf("Expected a number: %v", spl[1])
 		}
 
 		for step := 0; step < steps; step++ {
-			switch direction {
-			case "R":
-				head.X++
-				if !tail.adjacentTo(head) {
-					tail.X++
-					tail.Y = head.Y
-				}
-			case "L":
-				head.X--
-				if !tail.adjacentTo(head) {
-					tail.X--
-					tail.Y = head.Y
-				}
-			case "U":
-				head.Y--
-				if !tail.adjacentTo(head) {
-					tail.Y--
-					tail.X = head.X
-				}
-			case "D":
-				head.Y++
-				if !tail.adjacentTo(head) {
-					tail.Y++
-					tail.X = head.X
-				}
-			}
+			processStep(direction, &head, &tail)
 			tailPositions[tail.key()] = struct{}{}
 		}
 
 	}
 	return len(tailPositions)
+}
+
+func processStep(direction string, head, tail *Point) {
+	switch direction {
+	case "R":
+		head.X++
+		if !tail.adjacentTo(*head) {
+			tail.X++
+			tail.Y = head.Y
+		}
+	case "L":
+		head.X--
+		if !tail.adjacentTo(*head) {
+			tail.X--
+			tail.Y = head.Y
+		}
+	case "U":
+		head.Y--
+		if !tail.adjacentTo(*head) {
+			tail.Y--
+			tail.X = head.X
+		}
+	case "D":
+		head.Y++
+		if !tail.adjacentTo(*head) {
+			tail.Y++
+			tail.X = head.X
+		}
+	}
 }
