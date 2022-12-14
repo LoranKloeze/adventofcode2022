@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"math"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -27,6 +28,21 @@ func (p Point) adjacentTo(a Point) bool {
 
 func (p Point) key() string {
 	return fmt.Sprintf("%d,%d", p.Y, p.X)
+}
+
+// Main entry for part one of this day
+func PartOne() {
+	f, err := os.Open("day9/input.txt")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	res := uniqueTailVisits(f)
+
+	fmt.Printf("The answer is %d\n", res)
+
 }
 
 func uniqueTailVisits(r io.Reader) int {

@@ -16,6 +16,7 @@ import (
 	"github.com/lorankloeze/advent2022/day6"
 	"github.com/lorankloeze/advent2022/day7"
 	"github.com/lorankloeze/advent2022/day8"
+	"github.com/lorankloeze/advent2022/day9"
 )
 
 func main() {
@@ -36,6 +37,7 @@ func main() {
 		"day7-2": day7.PartTwo,
 		"day8-1": day8.PartOne,
 		"day8-2": day8.PartTwo,
+		"day9-1": day9.PartOne,
 	}
 
 	if len(os.Args) < 2 {
