@@ -10,27 +10,27 @@ import (
 	"testing"
 )
 
-func TestSampleForOne(t *testing.T) {
-	const sample = `R 4
-U 4
-L 3
-D 1
-R 4
-D 1
-L 5
-R 2
+func TestSampleForTwo(t *testing.T) {
+	const sample = `R 5
+U 8
+L 8
+D 3
+R 17
+D 10
+L 25
+U 20
 `
 
 	b := bytes.NewBufferString(sample)
-	got := tailVisits(b, 2)
-	exp := 13
+	got := tailVisits(b, 10)
+	exp := 36
 	if got != exp {
 		t.Errorf("Wrong number visited positions for the tail, expected %d, got %d", exp, got)
 	}
 
 }
 
-func TestRealForOne(t *testing.T) {
+func TestRealForTwo(t *testing.T) {
 
 	f, err := os.Open("input.txt")
 	if err != nil {
@@ -39,10 +39,10 @@ func TestRealForOne(t *testing.T) {
 	}
 	defer f.Close()
 
-	got := tailVisits(f, 2)
+	got := tailVisits(f, 10)
 
 	// Your answer is probably different
-	exp := 6367
+	exp := 2536
 
 	if got != exp {
 		t.Errorf("Wrong number visited positions for the tail, expected %d, got %d", exp, got)
