@@ -1,0 +1,61 @@
+// Copyright 2022 Loran Kloeze. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+
+package day10
+
+import (
+	"os"
+	"testing"
+)
+
+func TestSampleForTwo(t *testing.T) {
+
+	f, err := os.Open("input_sample.txt")
+	if err != nil {
+		t.Fatalf("Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	got := findLetters(f)
+
+	exp :=
+		"##..##..##..##..##..##..##..##..##..##..\n" +
+			"###...###...###...###...###...###...###.\n" +
+			"####....####....####....####....####....\n" +
+			"#####.....#####.....#####.....#####.....\n" +
+			"######......######......######......####\n" +
+			"#######.......#######.......#######....."
+
+	if got != exp {
+		t.Errorf("Wrong letters, expected\n%s\n but got \n%s", exp, got)
+	}
+
+}
+
+func TestRealForTwo(t *testing.T) {
+
+	f, err := os.Open("input.txt")
+	if err != nil {
+		t.Fatalf("Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	got := findLetters(f)
+
+	// Your answer is probably different
+	exp :=
+		"###..#..#.#....#..#...##..##..####..##..\n" +
+			"#..#.#..#.#....#..#....#.#..#....#.#..#.\n" +
+			"#..#.####.#....####....#.#......#..#..#.\n" +
+			"###..#..#.#....#..#....#.#.##..#...####.\n" +
+			"#....#..#.#....#..#.#..#.#..#.#....#..#.\n" +
+			"#....#..#.####.#..#..##...###.####.#..#."
+
+	if got != exp {
+		t.Errorf("Wrong letters, expected\n%s\n but got \n%s", exp, got)
+	}
+
+}
