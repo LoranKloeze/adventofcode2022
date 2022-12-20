@@ -1,8 +1,10 @@
 package day11
 
 import (
+	"fmt"
 	"io"
 	"log"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -67,6 +69,36 @@ func (m *Monkey) Throw(divisor string, totalMod int) {
 		}
 
 	}
+}
+
+// Main entry for part one of this day
+func PartOne() {
+	f, err := os.Open("day11/input.txt")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	res := monkeyBusiness(f, 20, "part1")
+
+	fmt.Printf("The answer is %d\n", res)
+
+}
+
+// Main entry for part two of this day
+func PartTwo() {
+	f, err := os.Open("day11/input.txt")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to open input data: %v\n", err)
+		return
+	}
+	defer f.Close()
+
+	res := monkeyBusiness(f, 10000, "part2")
+
+	fmt.Printf("The answer is %d\n", res)
+
 }
 
 func monkeyBusiness(r io.Reader, rounds int, divisor string) int {
